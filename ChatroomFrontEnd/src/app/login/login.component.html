@@ -1,7 +1,7 @@
 <div id="userEntry">
     <div id="displayNameInputBox" class="container text-center input-group">
-        <input #displayName id="usernameInput" class="form-control" placeholder="Enter your display name..." /> 
-        <button class="btn btn-primary input-group-append input-group-text" routerLink="/chatroom/displayName.value">
+        <input id="usernameInput" class="form-control" placeholder="Enter your display name..." [(ngModel)]="displayName" /> 
+        <button class="btn btn-primary input-group-append input-group-text" routerLink="/chatroom/{{displayName}}">
             Join Room
         </button>
     </div>
