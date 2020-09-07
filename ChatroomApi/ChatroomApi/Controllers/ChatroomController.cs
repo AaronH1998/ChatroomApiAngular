@@ -19,5 +19,13 @@ namespace ChatroomApi.Controllers
         {
             return _context.RoomMessage.ToList();
         }
+
+        [HttpPost]
+        public IActionResult SendMessage(RoomMessage message)
+        {
+            _context.RoomMessage.Add(message);
+            _context.SaveChanges();
+            return Ok();
+        }
     }
 }
