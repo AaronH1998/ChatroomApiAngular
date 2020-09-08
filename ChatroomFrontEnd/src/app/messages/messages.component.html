@@ -1,15 +1,24 @@
-<div id="chatbox">
-    <div *ngFor="let message of messages" class="container-fluid">
-        <div id="{{message.id}}" class="row message-whole">
-            <div class="col-sm-auto text-center message-user-container">
-                <div class="message-user-details">
-                    <div><i class="fas fa-user"></i></div>
-                    <div>{{message.Username}}</div>
+<div #scrollbar class="scrollbar">
+    <div id="chatbox">
+        <div *ngFor="let message of messages; let last = last" class="container-fluid">
+            <div id="{{message.Id}}" class="row message-whole">
+                <div class="col-sm-auto text-center message-user-container">
+                    <div class="message-user-details">
+                        <div><i class="fas fa-user"></i></div>
+                        <div>{{message.Username}}</div>
+                    </div>
                 </div>
-            </div>
-            <div class="col">
-                <div class="message-box">{{message.ChatMessage}}</div>
-                <div class="time-stamp"><span style="float:right;">sent at {{message.PostDate}}</span></div>
+                <div *ngIf="message.PostDate > entryTime && message.Username == currentUsername;else notCurrentUserMessage" class="col order-first">
+                    <div class="message-box">{{message.ChatMessage}}</div>
+                    <div class="time-stamp"><span style="float:right;">sent at {{moment(message.PostDate).format('LT') + ' ' +  moment(message.PostDate).format('ll')}}</span></div>
+                </div>
+                <ng-template #notCurrentUserMessage >
+                    <div class="col">
+                        
+                        <div class="message-box">{{message.ChatMessage}}</div>
+                        <div class="time-stamp"><span style="float:right;">sent at {{moment(message.PostDate).format('LT') + ' ' +  moment(message.PostDate).format('ll')}}</span></div>
+                    </div>
+                </ng-template>
             </div>
         </div>
     </div>
