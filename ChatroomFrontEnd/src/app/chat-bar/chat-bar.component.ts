@@ -1,7 +1,8 @@
-import { Component, OnInit, AfterViewInit,ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit,ElementRef, EventEmitter, Output } from '@angular/core';
 import { MessageService } from '../message.service';
 import{ActivatedRoute} from '@angular/router';
 import * as moment from 'moment';
+import { Message } from '../message';
 
 @Component({
   selector: 'app-chat-bar',
@@ -9,6 +10,7 @@ import * as moment from 'moment';
   styleUrls: ['./chat-bar.component.css']
 })
 export class ChatBarComponent implements OnInit, AfterViewInit {
+  @Output() myEvent: EventEmitter<Message> = new EventEmitter<Message>();
   
   constructor(private elementRef:ElementRef,private route:ActivatedRoute, private messageService: MessageService) { }
 
@@ -34,6 +36,7 @@ export class ChatBarComponent implements OnInit, AfterViewInit {
         Username: this.route.snapshot.paramMap.get("username"),
         PostDate: moment().format()
       }
+      this.myEvent.emit(messageDetails);
 
       this.messageService.sendMessage(messageDetails).subscribe();
   }

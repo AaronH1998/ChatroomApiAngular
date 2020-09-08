@@ -1,4 +1,4 @@
-import { Component, OnInit,  ViewChildren, QueryList, AfterViewChecked, AfterViewInit } from '@angular/core';
+import { Component, OnInit,  ViewChildren, QueryList, AfterViewChecked, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { Message } from '../message';
 import { MessageService } from '../message.service';
 import{ActivatedRoute} from '@angular/router';
@@ -17,6 +17,7 @@ export class MessagesComponent implements OnInit,AfterViewChecked {
   entryTime:string;
   moment: any = moment;
   oldMessages: Message[];
+  messageSent:boolean;
 
   constructor(private route:ActivatedRoute,private messageService:MessageService) { }
 
@@ -28,10 +29,18 @@ export class MessagesComponent implements OnInit,AfterViewChecked {
   }
 
   ngAfterViewChecked():void{
-    if(!this.oldMessages)
+    if(!this.oldMessages ){
       this.scrollToBottom();
+    }else if(this.messageSent){
+      this.scrollToBottom();
+      this.messageSent=false;
+    }
   }
 
+  addMessage(message:Message){
+      this.messages.push(message);
+      this.messageSent=true;
+  }
   getMessages():void{
     if(this.messages){
       this.oldMessages = JSON.parse(JSON.stringify(this.messages));
