@@ -1,0 +1,8 @@
+#chatbar {
+    grid-area: chat-bar;
+    position: fixed;
+    height:40px;
+    bottom:0;
+    width:100%;
+    background-color: #FFFFFF;
+}

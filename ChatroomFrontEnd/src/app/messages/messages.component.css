@@ -1,0 +1,29 @@
+.message-user-container{
+    position:relative;
+}
+
+.message-user-container .message-user-details{
+    width:100%;
+    position:absolute;
+    bottom:2px;
+    left:0;    
+}
+
+.message-whole {
+    padding:5px;
+}
+
+.message-box {
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: .25rem;
+    padding:5px;
+}
+
+.time-stamp{
+    font-size:0.7rem;
+}
+
+.col-sm-auto {
+    min-width: 40px;
+    max-width: 100px;
+}

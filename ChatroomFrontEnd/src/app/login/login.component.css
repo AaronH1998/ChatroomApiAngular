@@ -1,0 +1,13 @@
+#userEntry {
+    height: 100%;
+}
+
+#welcomeTitle{
+    padding-top:20px;
+    height:30%;
+}
+
+#displayNameInputBox{
+    width:40%;
+    min-width: 350px;
+}
