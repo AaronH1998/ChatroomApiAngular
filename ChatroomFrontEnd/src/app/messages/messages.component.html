@@ -1,0 +1,18 @@
+<div id="chatbox">
+    <div class="overflow-y-scroll">
+        <div *ngFor="let message of messages" class="container-fluid">
+            <div id="{{message.id}}" class="row message-whole">
+                <div class="col-sm-auto text-center message-user-container">
+                    <div class="message-user-details">
+                        <div><i class="fas fa-user"></i></div>
+                        <div>{{message.Username}}</div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="message-box">{{message.ChatMessage}}</div>
+                    <div class="time-stamp"><span style="float:right;">sent at {{message.PostDate}}</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
