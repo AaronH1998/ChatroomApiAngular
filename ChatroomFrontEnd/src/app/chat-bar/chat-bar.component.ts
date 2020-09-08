@@ -1,8 +1,6 @@
-import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
-import { Message } from '../message';
+import { Component, OnInit, AfterViewInit,ElementRef } from '@angular/core';
 import { MessageService } from '../message.service';
 import{ActivatedRoute} from '@angular/router';
-import * as $ from 'jquery';
 import * as moment from 'moment';
 
 @Component({
@@ -10,18 +8,25 @@ import * as moment from 'moment';
   templateUrl: './chat-bar.component.html',
   styleUrls: ['./chat-bar.component.css']
 })
-export class ChatBarComponent implements OnInit {
+export class ChatBarComponent implements OnInit, AfterViewInit {
   
-  constructor(private route:ActivatedRoute, private messageService: MessageService) { }
+  constructor(private elementRef:ElementRef,private route:ActivatedRoute, private messageService: MessageService) { }
 
   ngOnInit(): void {
   }
+
+  ngAfterViewInit():void{
+    this.elementRef.nativeElement.querySelector('#messageInput').addEventListener('keydown', (event) =>{
+      if(event.keyCode === 13) this.send(event.target.value);
+    });
+  }
+
   send(message: string): void {
       message = message.trim();
 
       if (!message) return;
       
-      $("#messageInput").val('');
+      this.elementRef.nativeElement.querySelector("#messageInput").value = '';
 
       let messageDetails = {
         Id:0,
@@ -30,6 +35,6 @@ export class ChatBarComponent implements OnInit {
         PostDate: moment().format()
       }
 
-      this.messageService.sendMessage(messageDetails).subscribe(message => console.log(message));
+      this.messageService.sendMessage(messageDetails).subscribe();
   }
 }
