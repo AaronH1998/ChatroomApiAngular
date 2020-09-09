@@ -6,7 +6,7 @@
     </div>
     <div id="usernameInputBox" class="container text-center input-group">
         <input id="usernameInput" class="form-control" placeholder="Enter your display name..." [(ngModel)]="username" /> 
-        <button id="joinButton" class="btn btn-primary input-group-append input-group-text" routerLink="/chatroom/{{username}}">
+        <button id="joinButton" class="btn btn-primary input-group-append input-group-text" (click)="addUser()">
             Join Room
         </button>
     </div>
