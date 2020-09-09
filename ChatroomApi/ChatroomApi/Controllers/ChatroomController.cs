@@ -17,13 +17,13 @@ namespace ChatroomApi.Controllers
         [HttpGet]
         public List<RoomMessage> GetMessages()
         {
-            return _context.RoomMessage.ToList();
+            return _context.RoomMessages.ToList();
         }
 
         [HttpPost]
         public IActionResult SendMessage(RoomMessage message)
         {
-            _context.RoomMessage.Add(message);
+            _context.RoomMessages.Add(message);
             _context.SaveChanges();
             return Ok();
         }

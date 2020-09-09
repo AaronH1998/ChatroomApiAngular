@@ -1,5 +1,5 @@
 export interface Message {
-    Id: number,
+    ID: number,
     ChatMessage: string,
     Username: string,
     PostDate:string

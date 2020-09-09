@@ -31,7 +31,7 @@ export class ChatBarComponent implements OnInit, AfterViewInit {
       this.elementRef.nativeElement.querySelector("#messageInput").value = '';
 
       let messageDetails = {
-        Id:0,
+        ID:0,
         ChatMessage: message,
         Username: this.route.snapshot.paramMap.get("username"),
         PostDate: moment().format()

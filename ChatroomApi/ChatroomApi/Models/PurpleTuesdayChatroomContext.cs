@@ -13,7 +13,8 @@ namespace ChatroomApi.Models
         {
         }
 
-        public virtual DbSet<RoomMessage> RoomMessage { get; set; }
+        public virtual DbSet<RoomMessage> RoomMessages { get; set; }
+        public virtual DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -23,7 +24,6 @@ namespace ChatroomApi.Models
         {
             modelBuilder.Entity<RoomMessage>(entity =>
             {
-                entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.ChatMessage)
                     .HasMaxLength(255)
@@ -35,6 +35,11 @@ namespace ChatroomApi.Models
                     .IsRequired()
                     .HasMaxLength(255)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.Property(e => e.Username).IsRequired().HasMaxLength(10).IsUnicode(false);
             });
         }
     }
