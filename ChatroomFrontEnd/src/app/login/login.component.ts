@@ -6,7 +6,7 @@ import { Component, OnInit, AfterViewInit,ElementRef } from '@angular/core';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit,AfterViewInit {
-  public displayName:string;
+  public username:string;
   constructor(private elementRef:ElementRef) { }
 
   ngOnInit(): void {
