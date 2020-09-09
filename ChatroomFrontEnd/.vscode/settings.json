@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/d784ed5b-66c4-4c91-9590-7722b28838fe/resourceGroups/chatroom-resources/providers/Microsoft.Web/sites/purple-tuesday-chatroom",
+    "appService.deploySubpath": "."
+}

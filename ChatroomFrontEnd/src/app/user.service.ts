@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {User} from './user';
+import{environment} from './../environments/environment'
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = 'https://localhost:44391/api/Users';
+  private apiUrl = environment.apiUrl + '/api/Users';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
