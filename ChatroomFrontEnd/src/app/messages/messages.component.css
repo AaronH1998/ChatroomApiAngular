@@ -2,12 +2,12 @@
     position:relative;
 }
 
-.message-user-container .message-user-details{
+/* .message-user-container .message-user-details{
     width:100%;
     position:absolute;
     bottom:2px;
     left:0;    
-}
+} */
 
 .message-whole {
     padding:5px;
@@ -26,9 +26,4 @@
 .scrollbar{
     overflow-y:auto;
     max-height:calc(100% - 100px);
-}
-
-.col-sm-auto {
-    min-width: 40px;
-    max-width: 100px;
 }
