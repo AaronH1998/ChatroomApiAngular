@@ -46,7 +46,7 @@ namespace ChatroomApi
 
             app.UseHttpsRedirection();
 
-            app.UseCors(options => options.WithOrigins("http://localhost:4200", "https://purple-tuesday-chatroom.azurewebsites.net").AllowAnyMethod().AllowAnyHeader());
+            app.UseCors(options => options.WithOrigins("http://localhost:4200", "https://purple-tuesday-chatroom.netlify.app").AllowAnyMethod().AllowAnyHeader());
             app.UseMvc();
         }
     }
