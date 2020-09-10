@@ -29,10 +29,13 @@ namespace ChatroomApi.Controllers
         [HttpDelete("{username}")]
         public IActionResult RemoveUser(string username)
         {
-            _context.Remove(_context.Users.First(u => u.Username == username));
-            _context.SaveChanges();
+            if (_context.Users.Any(u => u.Username == username))
+            {
+                _context.Remove(_context.Users.First(u => u.Username == username));
+                _context.SaveChanges();
+            }
+
             return Ok();
         }
-
     }
 }
