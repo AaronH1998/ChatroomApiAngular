@@ -353,3 +353,4 @@ MigrationBackup/
 
 # Local Netlify folder
 .netlify
+/bfg-1.13.0.jar
