@@ -11,6 +11,7 @@ import { LoginComponent } from './login/login.component';
 import { ChatroomComponent } from './chatroom/chatroom.component';
 import { MessagesComponent } from './messages/messages.component';
 import { ChatBarComponent } from './chat-bar/chat-bar.component';
+import { SideMenuComponent } from './side-menu/side-menu.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ChatBarComponent } from './chat-bar/chat-bar.component';
     LoginComponent,
     ChatroomComponent,
     MessagesComponent,
-    ChatBarComponent
+    ChatBarComponent,
+    SideMenuComponent
   ],
   imports: [
     BrowserModule,

@@ -4,7 +4,3 @@
     position: fixed;
     top:0;
 }
-
-#header {
-    grid-area: header;
-}
