@@ -17,7 +17,7 @@ export class ChatroomComponent implements OnInit,OnDestroy {
     this.removeUser();
   }
   ngOnInit(): void {
-    //angular seems to avoid getting to this component with unregistered users but will leave in as extra security
+    //angular seems to avoid getting to this component with unregistered users but I will leave this in as extra security
     this.userService.getUsers().subscribe((users)=> {
       let username = this.route.snapshot.paramMap.get("username");
       let isRegisteredUser = users.some((user) => user.Username == username);
