@@ -12,6 +12,7 @@ export class ChatroomComponent implements OnInit,OnDestroy {
   constructor(private userService:UserService,private route:ActivatedRoute) { }
 
   @HostListener('window:beforeunload')
+  @HostListener('window:onunload')
   ngOnDestroy():void{
     this.removeUser();
   }

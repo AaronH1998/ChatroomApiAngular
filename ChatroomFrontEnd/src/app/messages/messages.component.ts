@@ -47,7 +47,9 @@ export class MessagesComponent implements OnInit,AfterViewChecked {
     }
     this.messageService.getMessages().subscribe(messages =>{
       if(JSON.stringify(messages) != JSON.stringify(this.oldMessages)){
-        this.messages = messages; 
+        this.messages = messages;
+        console.log();
+        console.log(moment.utc(messages[messages.length-1].PostDate).local().format())
       }
     });
   }

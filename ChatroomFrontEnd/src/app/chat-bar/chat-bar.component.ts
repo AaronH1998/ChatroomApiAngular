@@ -34,7 +34,7 @@ export class ChatBarComponent implements OnInit, AfterViewInit {
         ID:0,
         ChatMessage: message,
         Username: this.route.snapshot.paramMap.get("username"),
-        PostDate: moment().format()
+        PostDate: moment().utc().format()
       }
       this.myEvent.emit(messageDetails);
 

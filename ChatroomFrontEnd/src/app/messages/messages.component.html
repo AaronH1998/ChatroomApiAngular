@@ -8,15 +8,14 @@
                         <div>{{message.Username}}</div>
                     </div>
                 </div>
-                <div *ngIf="message.PostDate > entryTime && message.Username == currentUsername;else notCurrentUserMessage" class="col order-first">
+                <div *ngIf="moment.utc(message.PostDate).local().format() > entryTime && message.Username == currentUsername;else notCurrentUserMessage" class="col order-first">
                     <div class="message-box">{{message.ChatMessage}}</div>
-                    <div class="time-stamp"><span style="float:right;">sent at {{moment(message.PostDate).format('LT') + ' ' +  moment(message.PostDate).format('ll')}}</span></div>
+                    <div class="time-stamp"><span style="float:right;">sent at {{moment(message.PostDate).format('LT ll')}}</span></div>
                 </div>
                 <ng-template #notCurrentUserMessage >
                     <div class="col">
-                        
                         <div class="message-box">{{message.ChatMessage}}</div>
-                        <div class="time-stamp"><span style="float:right;">sent at {{moment(message.PostDate).format('LT') + ' ' +  moment(message.PostDate).format('ll')}}</span></div>
+                        <div class="time-stamp"><span style="float:right;">sent at {{moment.utc(message.PostDate).local().format('LT ll')}}</span></div>
                     </div>
                 </ng-template>
             </div>
