@@ -1,0 +1,31 @@
+// Messages Table:
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[RoomMessages](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[ChatMessage] [varchar](255) NULL,
+	[Username] [varchar](255) NOT NULL,
+	[PostDate] [datetime] NOT NULL
+) ON [PRIMARY]
+GO
+
+
+//Users Table:
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Users](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Username] [varchar](10) NOT NULL
+) ON [PRIMARY]
+GO
+
