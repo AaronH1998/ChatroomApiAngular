@@ -1,7 +1,7 @@
 <div class="app">
     <nav id="header" class="navbar navbar-expand-lg navbar-light bg-light">
         <a *ngIf="isLoggedIn" href="javascript:void(0)" (click)="openMenu()"><i class="fas fa-bars"></i></a>
-        <span class="navbar-brand">{{title}}</span>
+        <span class="navbar-brand ml-3">{{title}}</span>
     </nav>
     <app-side-menu *ngIf="menuIsOpen" (closeMenuEvent)="closeMenu($event)"></app-side-menu>
     <router-outlet></router-outlet>
