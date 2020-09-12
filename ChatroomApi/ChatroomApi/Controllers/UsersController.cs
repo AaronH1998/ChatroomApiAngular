@@ -1,5 +1,6 @@
 ﻿using ChatroomApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -22,10 +23,27 @@ namespace ChatroomApi.Controllers
         [HttpPost]
         public IActionResult AddUser(User user)
         {
+            bool isExistingUser = _context.Users.Any(u => u.Username == user.Username);
+            if (isExistingUser)
+            {
+                var lastUserMessage = _context.RoomMessages.Where(m => m.Username == user.Username).OrderBy(p => p.PostDate).Last();
+                var isActiveUser = (DateTime.UtcNow - lastUserMessage.PostDate).TotalMinutes < 30;
+
+                if (isActiveUser)
+                {
+                    return Ok(new { success = false, message = "User with that username is active in the chatroom" });
+                }
+                else
+                {
+                    RemoveUser(user.Username);
+                }
+            }
+
             _context.Add(user);
             _context.SaveChanges();
             return Ok();
         }
+
         [HttpDelete("{username}")]
         public IActionResult RemoveUser(string username)
         {
