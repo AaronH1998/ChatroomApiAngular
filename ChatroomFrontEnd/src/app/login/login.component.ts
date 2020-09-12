@@ -29,18 +29,14 @@ export class LoginComponent implements OnInit,AfterViewInit {
   }
 
   addUser():void{
-    this.userService.getUsers().subscribe((users)=> {
-      let usernameInUse = users.some((user) => user.Username == this.username);
-    
-      if(usernameInUse){
-        
-        this.toastr.error("User already in the chatroom");
 
+    this.userService.addUser(this.username).subscribe((result)=>{
+      if(result["success"] == false){
+        this.toastr.error(result["message"]);
       }else{
-        this.userService.addUser(this.username).subscribe(()=>{
-          this.router.navigate(['/chatroom/'+this.username]);
-        });
+        this.router.navigate(['/chatroom/'+this.username]);
       }
     });
+      
   }
 }

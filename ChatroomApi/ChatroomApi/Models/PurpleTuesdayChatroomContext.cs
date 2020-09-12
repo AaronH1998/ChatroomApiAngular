@@ -40,6 +40,8 @@ namespace ChatroomApi.Models
             modelBuilder.Entity<User>(entity =>
             {
                 entity.Property(e => e.Username).IsRequired().HasMaxLength(10).IsUnicode(false);
+
+                entity.Property(e => e.EntryTime).IsRequired().HasColumnType("datetime");
             });
         }
     }

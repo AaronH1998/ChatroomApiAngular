@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {User} from './user';
 import{environment} from './../environments/environment'
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -20,12 +21,14 @@ export class UserService {
     return this.http.get<User[]>(this.apiUrl);
   }
 
-  addUser(username:string): Observable<User>{
+  addUser(username:string): Observable<Response>{
     let user = {
       ID:0,
-      Username:username
+      Username:username,
+      EntryTime:moment().utc().format()
     };
-    return this.http.post<User>(this.apiUrl,user,this.httpOptions);
+    
+    return this.http.post<Response>(this.apiUrl,user,this.httpOptions);
   }
 
   removeUser(username:string){

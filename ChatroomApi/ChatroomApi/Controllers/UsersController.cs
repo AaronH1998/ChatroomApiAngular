@@ -24,10 +24,16 @@ namespace ChatroomApi.Controllers
         public IActionResult AddUser(User user)
         {
             bool isExistingUser = _context.Users.Any(u => u.Username == user.Username);
+
             if (isExistingUser)
             {
+                var existingUser = _context.Users.Single(u => u.Username == user.Username);
+
                 var lastUserMessage = _context.RoomMessages.Where(m => m.Username == user.Username).OrderBy(p => p.PostDate).Last();
-                var isActiveUser = (DateTime.UtcNow - lastUserMessage.PostDate).TotalMinutes < 30;
+
+                var currentTime = DateTime.UtcNow;
+
+                var isActiveUser = (currentTime - lastUserMessage.PostDate).TotalMinutes < 30 || (currentTime - existingUser.EntryTime).TotalMinutes < 30;
 
                 if (isActiveUser)
                 {
@@ -41,7 +47,7 @@ namespace ChatroomApi.Controllers
 
             _context.Add(user);
             _context.SaveChanges();
-            return Ok();
+            return Ok(new { success = true });
         }
 
         [HttpDelete("{username}")]
