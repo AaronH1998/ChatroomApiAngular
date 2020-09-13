@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://chatroomapi.azurewebsites.net'
+  apiUrl: 'https://chatroomapi.azurewebsites.net',
+  wsEndpoint:''
 };

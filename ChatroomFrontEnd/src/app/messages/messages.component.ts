@@ -22,6 +22,7 @@ export class MessagesComponent implements OnInit,AfterViewChecked {
   constructor(private route:ActivatedRoute,private messageService:MessageService) { }
 
   ngOnInit(): void {
+    
     this.currentUsername = this.route.snapshot.paramMap.get("username");
     this.entryTime = moment().format();
     this.getMessages();
