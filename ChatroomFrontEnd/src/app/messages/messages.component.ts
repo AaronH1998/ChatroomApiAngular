@@ -1,9 +1,10 @@
-import { Component, OnInit,  ViewChildren, QueryList, AfterViewChecked, AfterViewInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit,  ViewChildren, QueryList, AfterViewChecked } from '@angular/core';
 import { Message } from '../message';
 import { MessageService } from '../message.service';
 import{ActivatedRoute} from '@angular/router';
 import * as moment from 'moment';
-import { ObjectUnsubscribedError } from 'rxjs';
+import { WebsocketService } from '../websocket.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-messages',
@@ -19,23 +20,26 @@ export class MessagesComponent implements OnInit,AfterViewChecked {
   oldMessages: Message[];
   messageSent:boolean;
 
-  constructor(private route:ActivatedRoute,private messageService:MessageService) { }
+  constructor(private route:ActivatedRoute,private messageService:MessageService,public websocketService:WebsocketService,private http: HttpClient) {
+  }
 
   ngOnInit(): void {
-    
     this.currentUsername = this.route.snapshot.paramMap.get("username");
     this.entryTime = moment().format();
-    this.getMessages();
-    setInterval(()=>this.getMessages(),1000);
+
+    this.websocketService.startConnection();
+    this.websocketService.addTransferMessageDataListener();
+    
+    // this.getMessages();
   }
 
   ngAfterViewChecked():void{
-    if(!this.oldMessages ){
-      this.scrollToBottom();
-    }else if(this.messageSent){
-      this.scrollToBottom();
-      this.messageSent=false;
-    }
+    // if(!this.oldMessages ){
+    //   this.scrollToBottom();
+    // }else if(this.messageSent){
+    //   this.scrollToBottom();
+    //   this.messageSent=false;
+    // }
   }
 
   addMessage(message:Message){
@@ -43,14 +47,15 @@ export class MessagesComponent implements OnInit,AfterViewChecked {
       this.messageSent=true;
   }
   getMessages():void{
-    if(this.messages){
-      this.oldMessages = JSON.parse(JSON.stringify(this.messages));
-    }
-    this.messageService.getMessages().subscribe(messages =>{
-      if(JSON.stringify(messages) != JSON.stringify(this.oldMessages)){
-        this.messages = messages;
-      }
-    });
+    // if(this.messages){
+    //   this.oldMessages = JSON.parse(JSON.stringify(this.messages));
+    // }
+    // this.messageService.getMessages().subscribe(messages =>{
+      // if(JSON.stringify(messages) != JSON.stringify(this.oldMessages)){
+      //   this.messages=messages;
+      // }
+    // });
+    this.http.get("https://localhost:44391/api/Chatroom").subscribe();
   }
   
   scrollToBottom():void{

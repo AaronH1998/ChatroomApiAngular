@@ -27,13 +27,20 @@ namespace ChatroomApi.Controllers
 
             if (isExistingUser)
             {
+                bool isActiveUser;
                 var existingUser = _context.Users.Single(u => u.Username == user.Username);
-
-                var lastUserMessage = _context.RoomMessages.Where(m => m.Username == user.Username).OrderBy(p => p.PostDate).Last();
-
                 var currentTime = DateTime.UtcNow;
 
-                var isActiveUser = (currentTime - lastUserMessage.PostDate).TotalMinutes < 30 || (currentTime - existingUser.EntryTime).TotalMinutes < 30;
+                if (!_context.RoomMessages.Any(m => m.Username == user.Username))
+                {
+                    isActiveUser = (currentTime - existingUser.EntryTime).TotalMinutes < 30;
+                }
+                else
+                {
+                    var lastUserMessage = _context.RoomMessages.Where(m => m.Username == user.Username).OrderBy(p => p.PostDate).Last();
+
+                    isActiveUser = (currentTime - lastUserMessage.PostDate).TotalMinutes < 30 || (currentTime - existingUser.EntryTime).TotalMinutes < 30;
+                }
 
                 if (isActiveUser)
                 {

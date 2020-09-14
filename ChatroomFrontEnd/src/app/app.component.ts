@@ -1,4 +1,4 @@
-import { Component, AfterViewChecked, AfterContentChecked } from '@angular/core';
+import { Component, AfterContentChecked } from '@angular/core';
 import {ActivatedRoute } from '@angular/router';
 
 @Component({

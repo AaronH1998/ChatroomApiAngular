@@ -22,13 +22,17 @@ namespace ChatroomApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<PurpleTuesdayChatroomContext>(options => options.UseSqlServer(Configuration["Data:DbConnectionString:ConnectionString"]));
+
+            services.AddCors();
+            services.AddSignalR();
+
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddJsonOptions(options =>
             {
                 var resolver = options.SerializerSettings.ContractResolver;
                 if (resolver != null)
                     (resolver as DefaultContractResolver).NamingStrategy = null;
             });
-            services.AddCors();
 
         }
 
@@ -45,8 +49,12 @@ namespace ChatroomApi
             }
 
             app.UseHttpsRedirection();
-
-            app.UseCors(options => options.WithOrigins("http://localhost:4200", "https://purple-tuesday-chatroom.netlify.app").AllowAnyMethod().AllowAnyHeader());
+            app.UseWebSockets();
+            app.UseCors(options => options.WithOrigins("http://localhost:4200", "https://purple-tuesday-chatroom.netlify.app", "wss://localhost:44391").AllowCredentials().AllowAnyMethod().AllowAnyHeader());
+            app.UseSignalR(route =>
+            {
+                route.MapHub<MessageHub>("/chatroom");
+            });
             app.UseMvc();
         }
     }

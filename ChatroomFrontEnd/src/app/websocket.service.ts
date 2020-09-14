@@ -1,44 +1,29 @@
 import { Injectable } from '@angular/core';
-import{webSocket, WebSocketSubject} from 'rxjs/webSocket';
-import{environment} from './../environments/environment';
-import{catchError,tap,switchAll} from 'rxjs/operators';
-import{EMPTY,Subject} from 'rxjs';
-export const WS_ENDPOINT = environment.wsEndpoint;
+import * as signalR from "@aspnet/signalr";
+import{Message} from "./message";
 
 @Injectable({
   providedIn: 'root'
 })
 export class WebsocketService {
-  private socket$: WebSocketSubject<any>;
-  private messagesSubject$ = new Subject();
-  public messages$ = this.messagesSubject$.pipe(switchAll(),catchError(e=>{throw e}));
+  public messages: Message[];
 
-  public connect(): void{
-    if(!this.socket$ || this.socket$.closed){
-      this.socket$ = this.getNewWebSocket();
+  private hubConnection: signalR.HubConnection;
 
-      const messages = this.socket$.pipe(
-        tap({
-          error:error => console.log(error),
-        }), catchError(_ => EMPTY));
+  public startConnection = () =>{
+    this.hubConnection = 
+      new signalR.HubConnectionBuilder()
+        .withUrl('https://localhost:44391/chatroom')
+        .build();
 
-      this.messagesSubject$.next(messages);
-    }
+    this.hubConnection.start()
+    .then(()=> console.log('Connection started'))
+    .catch(err => console.log('Error while starting connection: ' + err));
   }
 
-  private getNewWebSocket(){
-    let websocket =  webSocket(WS_ENDPOINT);
-    console.log(websocket);
-    return websocket;
+  public addTransferMessageDataListener = () => {
+    this.hubConnection.on('transfermessages',(data) =>{
+      this.messages = data;
+    })
   }
-
-  sendMessage(msg:any){
-    this.socket$.next(msg);
-  }
-
-  close(){
-    this.socket$.complete();
-  }
-  constructor() { }
-
 }
