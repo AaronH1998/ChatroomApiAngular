@@ -15,6 +15,7 @@ export class SideMenuComponent implements OnInit {
 
   ngOnInit(): void {
     this.websocketService.getUsers();
+    this.websocketService.addAddUserDataListener();
   }
 
   closeMenu(){

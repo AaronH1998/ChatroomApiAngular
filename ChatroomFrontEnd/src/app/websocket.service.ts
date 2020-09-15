@@ -31,13 +31,13 @@ export class WebsocketService {
   public getMessages(){
     this.messageService.getMessages().subscribe(messages=>{
       this.messages = camelcaseKeys(messages);
-      console.log(messages);
     });
   }
 
   public getUsers(){
     this.userService.getUsers().subscribe(users => {
-      this.users = users;
+      this.users = camelcaseKeys(users);
+      console.log(users);
     });
   }
 
@@ -51,6 +51,18 @@ export class WebsocketService {
     this.hubConnection.on('sendmessage',(message) =>{
       this.messages.push(message);
       console.log(this.messages[this.messages.length -1]);
+    });
+  }
+
+  public addUser = (user) =>{
+    this.hubConnection.invoke('addUser',user).catch(function(err){
+      return console.error(err);
+    });
+  }
+
+  public addAddUserDataListener = () =>{
+    this.hubConnection.on('addUser',(user) =>{
+      this.users.push(user);
     });
   }
 }

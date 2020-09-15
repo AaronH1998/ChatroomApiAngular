@@ -2,7 +2,7 @@
     <a href="javascript:void(0)" class="close-menu-btn" (click)="closeMenu()">&times;</a>
     <h3 class="text-center">Users in Room</h3>
     <div class="ml-4" *ngFor="let user of websocketService.users">
-        <div class="p-2"><i class="fas fa-user"></i><span class="ml-2">{{user.Username}}</span></div>
+        <div class="p-2"><i class="fas fa-user"></i><span class="ml-2">{{user.username}}</span></div>
     </div>
 
     <div class="text-center mt-5">

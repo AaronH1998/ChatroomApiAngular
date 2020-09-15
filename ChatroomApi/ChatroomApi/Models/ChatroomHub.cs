@@ -10,6 +10,10 @@ namespace ChatroomApi.Models
             await Clients.All.SendAsync("sendmessage", message);
         }
 
+        public async Task AddUser(User user)
+        {
+            await Clients.All.SendAsync("adduser", user);
+        }
 
     }
 }
