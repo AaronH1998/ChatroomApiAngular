@@ -17,7 +17,6 @@ export class SideMenuComponent implements OnInit {
     this.websocketService.getUsers();
     this.websocketService.addAddUserDataListener();
   }
-
   closeMenu(){
     this.closeMenuEvent.emit();
   }

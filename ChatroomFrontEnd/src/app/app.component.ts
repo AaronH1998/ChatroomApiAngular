@@ -17,6 +17,7 @@ export class AppComponent implements AfterContentChecked, OnInit {
 
   ngOnInit():void{
     this.websocketService.startConnection();
+    this.websocketService.addRemoveUserDataListener();
   }
   ngAfterContentChecked():void{
     if(window.location.href.includes("login")){

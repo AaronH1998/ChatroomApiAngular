@@ -55,14 +55,25 @@ export class WebsocketService {
   }
 
   public addUser = (user) =>{
-    this.hubConnection.invoke('addUser',user).catch(function(err){
+    this.hubConnection.invoke('adduser',user).catch(function(err){
       return console.error(err);
     });
   }
 
   public addAddUserDataListener = () =>{
-    this.hubConnection.on('addUser',(user) =>{
+    this.hubConnection.on('adduser',(user) =>{
       this.users.push(user);
+    });
+  }
+
+  public removeUser = (username)=>{
+    this.hubConnection.invoke("removeUser", username).catch(function(err){
+      return console.error(err);
+    });
+  }
+  public addRemoveUserDataListener = () =>{
+    this.hubConnection.on('removeuser',(username)=>{
+      this.users = this.users.filter(user => user["username"] != username);
     });
   }
 }

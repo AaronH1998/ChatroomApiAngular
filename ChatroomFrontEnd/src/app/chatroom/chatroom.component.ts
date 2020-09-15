@@ -10,7 +10,7 @@ import { WebsocketService } from '../websocket.service';
   host:{'window:beforeunload':'ngOnDestory','window:onunload':'ngOnDestory'}
 })
 export class ChatroomComponent implements OnDestroy {
-  constructor(private userService:UserService,private route:ActivatedRoute) { }
+  constructor(private userService:UserService,private route:ActivatedRoute, private websocketService:WebsocketService) { }
 
   @HostListener('window:beforeunload')
   @HostListener('window:onunload')
@@ -19,6 +19,8 @@ export class ChatroomComponent implements OnDestroy {
   }
 
   removeUser(){
-    this.userService.removeUser(this.route.snapshot.paramMap.get("username")).subscribe();
+    let username = this.route.snapshot.paramMap.get("username")
+    this.userService.removeUser(username).subscribe();
+    this.websocketService.removeUser(username);
   }
 }

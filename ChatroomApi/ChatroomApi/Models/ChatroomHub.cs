@@ -15,5 +15,10 @@ namespace ChatroomApi.Models
             await Clients.All.SendAsync("adduser", user);
         }
 
+        public async Task RemoveUser(string username)
+        {
+            await Clients.All.SendAsync("removeuser", username);
+        }
+
     }
 }
