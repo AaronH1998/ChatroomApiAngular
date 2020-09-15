@@ -5,6 +5,7 @@ import { MessageService } from './message.service';
 import { User } from './user';
 import { UserService } from './user.service';
 import * as camelcaseKeys from 'camelcase-keys';
+import {environment} from '.././environments/environment'
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,7 @@ import * as camelcaseKeys from 'camelcase-keys';
 export class WebsocketService {
   public messages: Message[];
   public users: User[];
+  private apiUrl = environment.apiUrl;
 
   private hubConnection: signalR.HubConnection;
 
@@ -20,7 +22,7 @@ export class WebsocketService {
   public startConnection = () =>{
     this.hubConnection = 
       new signalR.HubConnectionBuilder()
-        .withUrl('https://localhost:44391/chatroom')
+        .withUrl(this.apiUrl + '/chatroom')
         .build();
 
     this.hubConnection.start()
