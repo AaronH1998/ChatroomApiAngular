@@ -6,6 +6,7 @@ import { User } from './user';
 import { UserService } from './user.service';
 import * as camelcaseKeys from 'camelcase-keys';
 import {environment} from '.././environments/environment'
+import { IfStmt } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -76,7 +77,9 @@ export class WebsocketService {
   }
   public addRemoveUserDataListener = () =>{
     this.hubConnection.on('removeuser',(username)=>{
-      this.users = this.users.filter(user => user["username"] != username);
+      if(this.users){
+        this.users = this.users.filter(user => user["username"] != username);
+      }
     });
   }
 }
