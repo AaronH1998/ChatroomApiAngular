@@ -19,17 +19,17 @@ export class WebsocketService {
 
   public constructor(private messageService: MessageService, private userService: UserService){}
 
-  public startConnection = () =>{
-    this.hubConnection = 
-      new signalR.HubConnectionBuilder()
-        .withUrl(this.apiUrl + '/chatroom')
-        .build();
-
-    this.hubConnection.start()
-    .then(()=> console.log('Connection started'))
-    .catch(err => console.log('Error while starting connection: ' + err));
+  public startConnection() :Promise<void>{
+      this.hubConnection = 
+        new signalR.HubConnectionBuilder()
+          .withUrl(this.apiUrl + '/chatroom')
+          .build();
+      
+      return this.hubConnection.start()
+      .catch(err => console.log('Error while starting connection: ' + err));
     
   }
+
   public getMessages(){
     this.messageService.getMessages().subscribe(messages=>{
       this.messages = camelcaseKeys(messages);
@@ -39,7 +39,6 @@ export class WebsocketService {
   public getUsers(){
     this.userService.getUsers().subscribe(users => {
       this.users = camelcaseKeys(users);
-      console.log(users);
     });
   }
 
@@ -52,11 +51,10 @@ export class WebsocketService {
   public addSendMessageDataListener=()=>{
     this.hubConnection.on('sendmessage',(message) =>{
       this.messages.push(message);
-      console.log(this.messages[this.messages.length -1]);
     });
   }
 
-  public addUser = (user) =>{
+  public addUser = async (user) =>{
     this.hubConnection.invoke('adduser',user).catch(function(err){
       return console.error(err);
     });
