@@ -1,6 +1,7 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { User } from '../user';
 import { UserService } from '../user.service';
+import { WebsocketService } from '../websocket.service';
 
 @Component({
   selector: 'app-side-menu',
@@ -10,10 +11,10 @@ import { UserService } from '../user.service';
 export class SideMenuComponent implements OnInit {
   @Output() closeMenuEvent: EventEmitter<void> = new EventEmitter<void>() 
   users:User[];
-  constructor(private userService:UserService) { }
+  constructor(public websocketService:WebsocketService) { }
 
   ngOnInit(): void {
-    this.userService.getUsers().subscribe(users => this.users = users);
+    this.websocketService.getUsers();
   }
 
   closeMenu(){

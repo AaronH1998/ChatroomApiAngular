@@ -15,7 +15,7 @@ namespace ChatroomApi.TimerFeatures
         {
             action = _action;
             autoResetEvent = new AutoResetEvent(false);
-            timer = new Timer(Execute, autoResetEvent, 1000, 2000);
+            timer = new Timer(Execute, autoResetEvent, 1000, 10000);
             TimerStarted = DateTime.Now;
         }
 

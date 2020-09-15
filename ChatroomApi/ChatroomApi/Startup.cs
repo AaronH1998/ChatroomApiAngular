@@ -25,8 +25,6 @@ namespace ChatroomApi
 
             services.AddCors();
             services.AddSignalR();
-
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddJsonOptions(options =>
             {
                 var resolver = options.SerializerSettings.ContractResolver;
@@ -53,7 +51,7 @@ namespace ChatroomApi
             app.UseCors(options => options.WithOrigins("http://localhost:4200", "https://purple-tuesday-chatroom.netlify.app", "wss://localhost:44391").AllowCredentials().AllowAnyMethod().AllowAnyHeader());
             app.UseSignalR(route =>
             {
-                route.MapHub<MessageHub>("/chatroom");
+                route.MapHub<ChatroomHub>("/chatroom");
             });
             app.UseMvc();
         }

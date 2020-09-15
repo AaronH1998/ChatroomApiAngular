@@ -1,14 +1,21 @@
 import { Injectable } from '@angular/core';
 import * as signalR from "@aspnet/signalr";
 import{Message} from "./message";
+import { MessageService } from './message.service';
+import { User } from './user';
+import { UserService } from './user.service';
+import * as camelcaseKeys from 'camelcase-keys';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WebsocketService {
   public messages: Message[];
+  public users: User[];
 
   private hubConnection: signalR.HubConnection;
+
+  public constructor(private messageService: MessageService, private userService: UserService){}
 
   public startConnection = () =>{
     this.hubConnection = 
@@ -19,11 +26,31 @@ export class WebsocketService {
     this.hubConnection.start()
     .then(()=> console.log('Connection started'))
     .catch(err => console.log('Error while starting connection: ' + err));
+    
+  }
+  public getMessages(){
+    this.messageService.getMessages().subscribe(messages=>{
+      this.messages = camelcaseKeys(messages);
+      console.log(messages);
+    });
   }
 
-  public addTransferMessageDataListener = () => {
-    this.hubConnection.on('transfermessages',(data) =>{
-      this.messages = data;
+  public getUsers(){
+    this.userService.getUsers().subscribe(users => {
+      this.users = users;
+    });
+  }
+
+  public sendMessage = (message) =>{
+    this.hubConnection.invoke('sendmessage',message).catch(function(err){
+      return console.error(err);
     })
+  }
+
+  public addSendMessageDataListener=()=>{
+    this.hubConnection.on('sendmessage',(message) =>{
+      this.messages.push(message);
+      console.log(this.messages[this.messages.length -1]);
+    });
   }
 }

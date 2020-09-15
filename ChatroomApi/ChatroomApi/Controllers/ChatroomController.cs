@@ -1,7 +1,6 @@
 ﻿using ChatroomApi.Models;
-using ChatroomApi.TimerFeatures;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ChatroomApi.Controllers
@@ -11,27 +10,15 @@ namespace ChatroomApi.Controllers
     public class ChatroomController : ControllerBase
     {
         PurpleTuesdayChatroomContext context;
-        private IHubContext<MessageHub> hub;
 
-        public ChatroomController(PurpleTuesdayChatroomContext _context, IHubContext<MessageHub> _hub)
+        public ChatroomController(PurpleTuesdayChatroomContext _context)
         {
             context = _context;
-            hub = _hub;
         }
-        //[HttpGet]
-        //public List<RoomMessage> GetMessages()
-        //{
-        //    return context.RoomMessages.ToList();
-        //}
         [HttpGet]
-        public IActionResult Get()
+        public List<RoomMessage> GetMessages()
         {
-            var messages = context.RoomMessages.ToList();
-            var timerManager = new TimerManager(() =>
-            {
-                hub.Clients.All.SendAsync("transfermessages", messages);
-            });
-            return Ok(new { Message = "Request Completed" });
+            return context.RoomMessages.ToList();
         }
         [HttpPost]
         public IActionResult SendMessage(RoomMessage message)

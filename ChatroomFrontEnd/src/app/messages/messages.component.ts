@@ -20,17 +20,13 @@ export class MessagesComponent implements OnInit,AfterViewChecked {
   oldMessages: Message[];
   messageSent:boolean;
 
-  constructor(private route:ActivatedRoute,private messageService:MessageService,public websocketService:WebsocketService,private http: HttpClient) {
+  constructor(private route:ActivatedRoute,private messageService:MessageService,public websocketService:WebsocketService) {
   }
 
   ngOnInit(): void {
     this.currentUsername = this.route.snapshot.paramMap.get("username");
     this.entryTime = moment().format();
-
-    this.websocketService.startConnection();
-    this.websocketService.addTransferMessageDataListener();
-    
-    // this.getMessages();
+    this.websocketService.getMessages();
   }
 
   ngAfterViewChecked():void{
@@ -40,22 +36,6 @@ export class MessagesComponent implements OnInit,AfterViewChecked {
     //   this.scrollToBottom();
     //   this.messageSent=false;
     // }
-  }
-
-  addMessage(message:Message){
-      this.messages.push(message);
-      this.messageSent=true;
-  }
-  getMessages():void{
-    // if(this.messages){
-    //   this.oldMessages = JSON.parse(JSON.stringify(this.messages));
-    // }
-    // this.messageService.getMessages().subscribe(messages =>{
-      // if(JSON.stringify(messages) != JSON.stringify(this.oldMessages)){
-      //   this.messages=messages;
-      // }
-    // });
-    this.http.get("https://localhost:44391/api/Chatroom").subscribe();
   }
   
   scrollToBottom():void{

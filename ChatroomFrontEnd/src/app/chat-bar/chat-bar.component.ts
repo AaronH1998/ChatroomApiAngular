@@ -3,6 +3,7 @@ import { MessageService } from '../message.service';
 import{ActivatedRoute} from '@angular/router';
 import * as moment from 'moment';
 import { Message } from '../message';
+import { WebsocketService } from '../websocket.service';
 
 @Component({
   selector: 'app-chat-bar',
@@ -10,11 +11,11 @@ import { Message } from '../message';
   styleUrls: ['./chat-bar.component.css']
 })
 export class ChatBarComponent implements OnInit, AfterViewInit {
-  @Output() myEvent: EventEmitter<Message> = new EventEmitter<Message>();
   
-  constructor(private elementRef:ElementRef,private route:ActivatedRoute, private messageService: MessageService) { }
+  constructor(private elementRef:ElementRef,private route:ActivatedRoute, private messageService: MessageService, private websocketService: WebsocketService) { }
 
   ngOnInit(): void {
+    this.websocketService.addSendMessageDataListener();
   }
 
   ngAfterViewInit():void{
@@ -36,8 +37,8 @@ export class ChatBarComponent implements OnInit, AfterViewInit {
         Username: this.route.snapshot.paramMap.get("username"),
         PostDate: moment().utc().format()
       }
-      this.myEvent.emit(messageDetails);
 
       this.messageService.sendMessage(messageDetails).subscribe();
+      this.websocketService.sendMessage(messageDetails);
   }
 }

@@ -10,34 +10,37 @@ namespace ChatroomApi.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        PurpleTuesdayChatroomContext _context;
-        public UsersController(PurpleTuesdayChatroomContext context)
+
+        PurpleTuesdayChatroomContext context;
+
+        public UsersController(PurpleTuesdayChatroomContext _context)
         {
-            _context = context;
+            context = _context;
         }
         [HttpGet]
         public List<User> GetUsers()
         {
-            return _context.Users.ToList();
+            return context.Users.ToList();
         }
+
         [HttpPost]
         public IActionResult AddUser(User user)
         {
-            bool isExistingUser = _context.Users.Any(u => u.Username == user.Username);
+            bool isExistingUser = context.Users.Any(u => u.Username == user.Username);
 
             if (isExistingUser)
             {
                 bool isActiveUser;
-                var existingUser = _context.Users.Single(u => u.Username == user.Username);
+                var existingUser = context.Users.Single(u => u.Username == user.Username);
                 var currentTime = DateTime.UtcNow;
 
-                if (!_context.RoomMessages.Any(m => m.Username == user.Username))
+                if (!context.RoomMessages.Any(m => m.Username == user.Username))
                 {
                     isActiveUser = (currentTime - existingUser.EntryTime).TotalMinutes < 30;
                 }
                 else
                 {
-                    var lastUserMessage = _context.RoomMessages.Where(m => m.Username == user.Username).OrderBy(p => p.PostDate).Last();
+                    var lastUserMessage = context.RoomMessages.Where(m => m.Username == user.Username).OrderBy(p => p.PostDate).Last();
 
                     isActiveUser = (currentTime - lastUserMessage.PostDate).TotalMinutes < 30 || (currentTime - existingUser.EntryTime).TotalMinutes < 30;
                 }
@@ -52,18 +55,18 @@ namespace ChatroomApi.Controllers
                 }
             }
 
-            _context.Add(user);
-            _context.SaveChanges();
+            context.Add(user);
+            context.SaveChanges();
             return Ok(new { success = true });
         }
 
         [HttpDelete("{username}")]
         public IActionResult RemoveUser(string username)
         {
-            if (_context.Users.Any(u => u.Username == username))
+            if (context.Users.Any(u => u.Username == username))
             {
-                _context.Remove(_context.Users.First(u => u.Username == username));
-                _context.SaveChanges();
+                context.Remove(context.Users.First(u => u.Username == username));
+                context.SaveChanges();
             }
 
             return Ok();

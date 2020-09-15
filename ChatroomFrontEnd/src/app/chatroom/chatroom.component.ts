@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { UserService } from '../user.service';
 import { ActivatedRoute } from '@angular/router';
+import { WebsocketService } from '../websocket.service';
 
 @Component({
   selector: 'app-chatroom',
@@ -8,23 +9,13 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./chatroom.component.css'],
   host:{'window:beforeunload':'ngOnDestory','window:onunload':'ngOnDestory'}
 })
-export class ChatroomComponent implements OnInit,OnDestroy {
+export class ChatroomComponent implements OnDestroy {
   constructor(private userService:UserService,private route:ActivatedRoute) { }
 
   @HostListener('window:beforeunload')
   @HostListener('window:onunload')
   ngOnDestroy():void{
     this.removeUser();
-  }
-  ngOnInit(): void {
-    //angular seems to avoid getting to this component with unregistered users but I will leave this in as extra security
-    this.userService.getUsers().subscribe((users)=> {
-      let username = this.route.snapshot.paramMap.get("username");
-      let isRegisteredUser = users.some((user) => user.Username == username);
-      if(!isRegisteredUser){
-        this.userService.addUser(username).subscribe();
-      }
-    });
   }
 
   removeUser(){
