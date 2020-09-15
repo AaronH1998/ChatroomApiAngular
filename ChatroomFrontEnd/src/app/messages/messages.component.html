@@ -1,4 +1,4 @@
-<div #scrollbar class="scrollbar">
+<div #scrollbar class="scrollbar" (scroll)="onScroll()">
     <div id="chatbox">
         <div *ngFor="let message of websocketService.messages; let last = last" class="container-fluid">
             <div id="{{message.id}}" class="row message-whole">

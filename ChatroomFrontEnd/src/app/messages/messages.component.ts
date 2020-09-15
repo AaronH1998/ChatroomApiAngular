@@ -1,4 +1,4 @@
-import { Component, OnInit,  ViewChildren, QueryList, AfterViewChecked } from '@angular/core';
+import { Component, OnInit,  ViewChildren, QueryList, AfterViewChecked, AfterViewInit } from '@angular/core';
 import { Message } from '../message';
 import { MessageService } from '../message.service';
 import{ActivatedRoute} from '@angular/router';
@@ -13,14 +13,13 @@ import { HttpClient } from '@angular/common/http';
 })
 export class MessagesComponent implements OnInit,AfterViewChecked {
   @ViewChildren('scrollbar') scrollbar:QueryList<any>;
-  messages:Message[];
   currentUsername:string;
   entryTime:string;
   moment: any = moment;
-  oldMessages: Message[];
   messageSent:boolean;
+  manuallyScrolled:boolean;
 
-  constructor(private route:ActivatedRoute,private messageService:MessageService,public websocketService:WebsocketService) {
+  constructor(private route:ActivatedRoute,public websocketService:WebsocketService) {
   }
 
   ngOnInit(): void {
@@ -30,15 +29,19 @@ export class MessagesComponent implements OnInit,AfterViewChecked {
   }
 
   ngAfterViewChecked():void{
-    // if(!this.oldMessages ){
-    //   this.scrollToBottom();
-    // }else if(this.messageSent){
-    //   this.scrollToBottom();
-    //   this.messageSent=false;
-    // }
+    if(!this.manuallyScrolled){
+      this.scrollToBottom();
+    }else if(this.websocketService.messageSent){
+      this.scrollToBottom();
+    }
+  }
+
+  onScroll(){
+    this.manuallyScrolled = true;
   }
   
   scrollToBottom():void{
     this.scrollbar.first.nativeElement.scrollTop = this.scrollbar.first.nativeElement.scrollHeight;
+    this.websocketService.messageSent = false;
   }
 }

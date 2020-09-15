@@ -14,6 +14,7 @@ export class WebsocketService {
   public messages: Message[];
   public users: User[];
   private apiUrl = environment.apiUrl;
+  public messageSent:boolean;
 
   private hubConnection: signalR.HubConnection;
 
@@ -43,7 +44,9 @@ export class WebsocketService {
   }
 
   public sendMessage = (message) =>{
-    this.hubConnection.invoke('sendmessage',message).catch(function(err){
+    this.hubConnection.invoke('sendmessage',message).then(()=>{
+      this.messageSent = true;
+    }).catch(function(err){
       return console.error(err);
     })
   }
