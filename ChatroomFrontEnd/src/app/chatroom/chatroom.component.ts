@@ -39,9 +39,10 @@ export class ChatroomComponent implements OnDestroy {
   }
 
   removeUser(){
-    let username = this.route.snapshot.paramMap.get("username");
     
-    this.userService.removeUser(username).subscribe();
+    let username = this.route.snapshot.paramMap.get("username");
+
+    this.userService.removeUser().subscribe();
     this.websocketService.removeUser(username);
     
   }

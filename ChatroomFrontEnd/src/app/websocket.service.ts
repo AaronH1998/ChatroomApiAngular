@@ -26,6 +26,10 @@ export class WebsocketService {
         new signalR.HubConnectionBuilder()
           .withUrl(this.apiUrl + '/chatroom')
           .build();
+
+      this.hubConnection.onclose(() =>{
+        this.userService.removeUser()
+      });
       
       return this.hubConnection.start()
       .catch(err => console.log('Error while starting connection: ' + err));

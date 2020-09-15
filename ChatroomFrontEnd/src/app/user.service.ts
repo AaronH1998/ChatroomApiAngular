@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import {User} from './user';
 import{environment} from './../environments/environment'
 import * as moment from 'moment';
+import { ActivatedRoute } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class UserService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private route:ActivatedRoute) { }
 
   getUsers(): Observable<User[]>{
     return this.http.get<User[]>(this.apiUrl);
@@ -31,7 +32,8 @@ export class UserService {
     return this.http.post<Response>(this.apiUrl,user,this.httpOptions);
   }
 
-  removeUser(username:string){
+  removeUser(){
+    let username = this.route.snapshot.paramMap.get("username");
     return this.http.delete(this.apiUrl + '/' +username, this.httpOptions);
   }
 }
